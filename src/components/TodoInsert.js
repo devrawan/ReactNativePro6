@@ -1,30 +1,71 @@
-import React, { useState } from 'react';
-import {  Text, View, TextInput, Button, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
+import {useTheme} from "@react-navigation/native";
 
+const TodoInsert = props => {
+  const [data, setData] = useState({name: '', age: ''});
+  const { colors, dark } = useTheme();
 
+  return (
+    <>
+      <View
+        style={styles.cont}>
+        <TextInput
+placeholderTextColor="gray"
+          placeholder="Enter your name "
+          value={data.name}
+          onChangeText={value => setData({...data, name: value})}
+          style={[styles.input,{backgroundColor:colors.background,borderColor:colors.text,color:colors.text}]}
+        />
+        <TextInput
+      placeholderTextColor="gray"
+          placeholder="Enter your age "
+          value={data.age}
+          onChangeText={value => setData({...data, age: value})}
+          style={[styles.input,{backgroundColor:colors.background,borderColor:colors.text,color:colors.text}]}
+        />
 
-const TodoInsert=(props)=>{
-const [val ,setVal] = useState();
-    return(
-        <View style={{flexDirection:'row',height:60,justifyContent:'space-between',alignContent:'center',borderWidth:1,marginHorizontal:10,marginVertical:10,borderRadius:15,borderColor:'#EFBBFF'}}>
-            <TextInput   
-            value={val}
-            onChangeText ={setVal}
-            style={{width:'80%',paddingHorizontal:10,borderBottomLeftRadius:15,borderTopLeftRadius:15}} />
-            <TouchableOpacity 
-            onPress={()=>{
-                props.onAddTodo(val)
-                setVal('')
-            }}
-            style={{width:'20%',justifyContent:'center',alignItems:'center',backgroundColor:'#EFBBFF',borderBottomRightRadius:15,borderTopRightRadius:15}}>
-                <Text style={{fontSize:18}}> Add</Text>
-            </TouchableOpacity>
-          
-    
-            </View>
-    )
-}
-
-
+        <TouchableOpacity
+          onPress={() => {
+            props.onAddObj(data);
+            setData('');
+          }}
+          style={styles.btnView}>
+          <Text style={[styles.txt,{color:colors.text}]}> Add</Text>
+        </TouchableOpacity>
+      </View>
+    </>
+  );
+};
 
 export default TodoInsert;
+const styles = StyleSheet.create({
+  cont:{
+    paddingVertical: 10,
+    width: '90%',
+    alignSelf: 'center',
+    paddingHorizontal: 10,
+  },
+  input:{
+    height: 50,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    borderWidth: 1,
+    marginVertical: 5,
+    backgroundColor:'black',
+    
+  },
+  btnView:{
+    marginTop: 5,
+    borderRadius: 15,
+    width: '40%',
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9e17f4',
+    alignSelf: 'center',
+  },
+  txt:{
+    fontSize: 18, color: 'white'
+  }
+})

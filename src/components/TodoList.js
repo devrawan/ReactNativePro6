@@ -1,44 +1,32 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, View, TouchableOpacity,StyleSheet} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useTheme} from "@react-navigation/native";
 
+const TodoList = props => {
+  const { colors, dark } = useTheme();
 
-const TodoList = (props) => {
   return (
     <>
       {props.todos.map(item => (
         <View
           key={item.id}
-          style={{
-            width: '90%',
-            height: 60,
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            alignSelf: 'center',
-            marginVertical: 10,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            borderColor: '#EFBBFF',
-            borderRadius: 15,
-            borderWidth: 2,
-          }}>
-          <Text>{item.textValue}</Text>
-
-          <View style={{flexDirection:'row'}}>
-          <TouchableOpacity onPress={()=>props.onRemove(item.id)} style={{marginEnd:5}}>
-            <AntDesign name="closecircleo" style={{fontSize: 30}} />
+          style={[styles.cont,{backgroundColor:colors.background}] }>
+          <TouchableOpacity
+            onPress={() => props.onRemove(item.id)}
+            style={{marginEnd: 5}}>
+            <AntDesign name="closecircleo" style={{fontSize: 30,color:'#9e17f4'}} />
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={()=>props.handelChecked(item.id,item.textValue,item.checked)}>
-            <AntDesign name= {item.checked ? 'checkcircle' : 'checkcircleo'} style={{fontSize: 30 ,color:'#EFBBFF'}} />
-
+          <Text style={{fontSize: 16,color:colors.text}}>{` Name: ${item.name}  ..   Age: ${item.age} `}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              props.handelChecked(item.id, item.name, item.age, item.checked)
+            }>
+            <AntDesign
+              name={item.checked ? 'checkcircle' : 'checkcircleo'}
+              style={{fontSize: 30, color: '#9e17f4'}}
+            />
           </TouchableOpacity>
-          </View>
-         
         </View>
       ))}
     </>
@@ -46,3 +34,18 @@ const TodoList = (props) => {
 };
 
 export default TodoList;
+const styles =StyleSheet.create({
+  cont:{
+    width: '90%',
+    height: 60,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginVertical: 10,
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    borderColor: '#9e17f4',
+    borderRadius: 15,
+    borderWidth: 2,
+  }
+})
